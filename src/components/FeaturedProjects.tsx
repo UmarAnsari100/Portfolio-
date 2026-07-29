@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Project } from '../types';
 import { PORTFOLIO_PROJECTS } from '../constants/portfolioData';
-import { Search, ArrowUpRight, FileText, Terminal, Clock } from 'lucide-react';
+import { Search, ArrowUpRight, FileText, Terminal, Clock, ShieldCheck } from 'lucide-react';
 import { EvidenceScreenshot } from './EvidenceScreenshot';
 
 interface FeaturedProjectsProps {
@@ -26,60 +26,117 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProj
 
   return (
     <section id="work" className="max-w-[1440px] mx-auto px-5 md:px-16 py-16 border-b-2 border-[#1A1A1A]">
-      {/* Section Title Bar */}
-      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end pb-6 mb-12 border-b-2 border-[#1A1A1A] gap-6 max-w-full overflow-hidden">
-        <div>
-          <div className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-[#A18262] mb-1.5 flex items-center gap-2">
+      {/* Editorial Section Masthead & Archival Summary Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8 pb-8 border-b-2 border-[#1A1A1A]">
+        {/* Left Lead Column: Heading & Manifesto Quote */}
+        <div className="lg:col-span-7 space-y-4">
+          <div className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-[#A18262] flex items-center gap-2">
             <FileText className="w-4 h-4 text-[#A18262]" />
             <span>INVESTIGATIVE ENGINEERING DOSSIERS • SECTION B</span>
           </div>
-          <h3 className="font-serif font-bold text-3xl md:text-5xl uppercase tracking-tight italic text-[#1A1A1A]">
+
+          <h3 className="font-serif font-bold text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight italic text-[#1A1A1A] leading-tight">
             CASE FILES & DISPATCHES
           </h3>
-          <p className="font-sans text-sm text-[#5E5E5E] font-light max-w-2xl mt-2">
+
+          <p className="font-sans text-base sm:text-lg text-[#444444] font-light leading-relaxed max-w-2xl">
             Detailed engineering documentation of production web platforms, architecture designs, and high-performance applications.
           </p>
+
+          <div className="pt-2 border-t border-[#1A1A1A]/15 font-mono text-xs text-[#5E5E5E] flex items-center gap-2">
+            <span className="text-[#A18262] font-bold">EDITORIAL NOTE:</span>
+            <span>Every dispatch represents an audited investigation of performance, architecture, and user experience.</span>
+          </div>
         </div>
 
-        {/* Filter Toolbar — Refined Editorial Navigation */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 w-full xl:w-auto items-stretch sm:items-center max-w-full shrink pt-2 xl:pt-0">
-          {/* Search Input */}
-          <div className="relative w-full sm:w-64 shrink">
-            <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#1A1A1A]/50 stroke-[1.75]" aria-hidden="true" />
-            <input
-              type="text"
-              aria-label="Search dispatches and case studies"
-              placeholder="SEARCH CASE FILES..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="font-mono text-xs uppercase pl-9 pr-3.5 py-2 border border-[#1A1A1A]/25 bg-white/60 text-[#1A1A1A] placeholder:text-[#1A1A1A]/40 focus:border-[#1A1A1A] focus:bg-white focus-visible:ring-2 focus-visible:ring-[#1A1A1A] focus-visible:outline-none transition-all duration-200 w-full rounded-xs shadow-2xs"
-            />
+        {/* Right Column: Editorial Classification Panel & Archival Metrics */}
+        <div className="lg:col-span-5 border border-[#1A1A1A]/20 bg-white/80 p-5 rounded-xs shadow-2xs space-y-4">
+          <div className="flex items-center justify-between border-b border-[#1A1A1A]/15 pb-2 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-[#A18262]" />
+              <span>CLASSIFICATION: PUBLIC DOSSIER</span>
+            </div>
+            <span className="text-[10px] text-[#A18262]">VOL. 2026</span>
           </div>
 
-          {/* Category Filters */}
-          <nav
-            aria-label="Category filters"
-            className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap max-w-full py-0.5"
-          >
-            {categories.map((cat) => {
-              const isSelected = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  aria-pressed={isSelected}
-                  className={`font-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] px-3 py-1.5 sm:px-3.5 sm:py-2 transition-all duration-200 cursor-pointer rounded-xs focus-visible:ring-2 focus-visible:ring-[#1A1A1A] focus-visible:outline-none shrink-0 ${
-                    isSelected
-                      ? 'bg-[#1A1A1A] text-[#F5F2ED] shadow-2xs'
-                      : 'text-[#1A1A1A]/70 hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/5'
+          {/* Investigation Metrics Grid */}
+          <div className="grid grid-cols-2 gap-3 font-mono text-xs">
+            <div className="border border-[#1A1A1A]/10 bg-[#1A1A1A]/5 p-2.5 rounded-xs">
+              <div className="text-[10px] text-[#5E5E5E] uppercase tracking-wider mb-0.5">RECORDED CASES</div>
+              <div className="font-bold text-[#1A1A1A] text-sm sm:text-base">{PORTFOLIO_PROJECTS.length} VERIFIED FILES</div>
+            </div>
+            <div className="border border-[#1A1A1A]/10 bg-[#1A1A1A]/5 p-2.5 rounded-xs">
+              <div className="text-[10px] text-[#5E5E5E] uppercase tracking-wider mb-0.5">SYSTEM INTEGRITY</div>
+              <div className="font-bold text-[#A18262] text-sm sm:text-base">100% AUDITED</div>
+            </div>
+            <div className="border border-[#1A1A1A]/10 bg-[#1A1A1A]/5 p-2.5 rounded-xs">
+              <div className="text-[10px] text-[#5E5E5E] uppercase tracking-wider mb-0.5">ACCESS LEVEL</div>
+              <div className="font-bold text-[#1A1A1A] text-sm sm:text-base">INTERNAL REVIEW</div>
+            </div>
+            <div className="border border-[#1A1A1A]/10 bg-[#1A1A1A]/5 p-2.5 rounded-xs">
+              <div className="text-[10px] text-[#5E5E5E] uppercase tracking-wider mb-0.5">DEPLOYMENT</div>
+              <div className="font-bold text-[#A18262] text-sm sm:text-base">PRODUCTION READY</div>
+            </div>
+          </div>
+
+          {/* Archival Stamp */}
+          <div className="flex items-center justify-between font-mono text-[10px] text-[#5E5E5E] uppercase tracking-widest pt-1 border-t border-[#1A1A1A]/10">
+            <span>ARCHIVE STAMP: ✓ VERIFIED BY MUHAMMAD UMAR</span>
+            <span className="font-bold text-[#A18262]">RAWALPINDI (PK)</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Filter Toolbar — Raised, Tight Alignment & Category Counters */}
+      <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-10 pb-4 border-b border-[#1A1A1A]/20">
+        {/* Search Input */}
+        <div className="relative w-full md:w-80 shrink">
+          <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#1A1A1A]/50 stroke-[1.75]" aria-hidden="true" />
+          <input
+            type="text"
+            aria-label="Search dispatches and case studies"
+            placeholder="SEARCH CASE FILES & STACK..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="font-mono text-xs uppercase pl-9 pr-3.5 py-2 border border-[#1A1A1A]/25 bg-white text-[#1A1A1A] placeholder:text-[#1A1A1A]/40 focus:border-[#1A1A1A] focus-visible:ring-2 focus-visible:ring-[#1A1A1A] focus-visible:outline-none transition-all duration-200 w-full rounded-xs shadow-2xs"
+          />
+        </div>
+
+        {/* Category Filter Navigation */}
+        <nav
+          aria-label="Category filters"
+          className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap py-0.5"
+        >
+          {categories.map((cat) => {
+            const isSelected = selectedCategory === cat;
+            const count =
+              cat === 'ALL'
+                ? PORTFOLIO_PROJECTS.length
+                : PORTFOLIO_PROJECTS.filter((p) => p.category.toUpperCase() === cat).length;
+
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                aria-pressed={isSelected}
+                className={`font-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] px-3 py-1.5 sm:px-3.5 sm:py-2 transition-all duration-200 cursor-pointer rounded-xs focus-visible:ring-2 focus-visible:ring-[#1A1A1A] focus-visible:outline-none shrink-0 flex items-center gap-1.5 ${
+                  isSelected
+                    ? 'bg-[#1A1A1A] text-[#F5F2ED] shadow-2xs'
+                    : 'text-[#1A1A1A]/70 hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/5'
+                }`}
+              >
+                <span>{cat}</span>
+                <span
+                  className={`text-[9px] px-1.5 py-0.2 rounded-full ${
+                    isSelected ? 'bg-[#A18262] text-white' : 'bg-[#1A1A1A]/10 text-[#1A1A1A]/70'
                   }`}
                 >
-                  {cat}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
       </div>
 
       {/* Projects List */}
