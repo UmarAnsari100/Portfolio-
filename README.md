@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Muhammad Umar — Personal Portfolio
 
-# Run and deploy your AI Studio app
+Luxury broadsheet editorial portfolio for **Muhammad Umar**, Senior Frontend Engineer & Computer Science Student.
 
-This contains everything you need to run your app locally.
+## 🚀 Built With
 
-View your app in AI Studio: https://ai.studio/apps/fcc4bfc6-fb7a-46c1-8ebf-2ea95cc1a5b8
+- **Framework**: React + Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
 
-## Run Locally
+## 💻 Run Locally
 
-**Prerequisites:**  Node.js
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm or bun
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Setup Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/UmarAnsari100/Portfolio-.git
+   cd Portfolio-
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+4. Build for production:
+   ```bash
+   npm run build
+   ```
