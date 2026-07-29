@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowUp, Printer, ShieldCheck } from 'lucide-react';
+import { ArrowUp, ShieldCheck } from 'lucide-react';
+import { PrintGazetteButton } from './PrintGazetteButton';
 
 interface FooterProps {
   onReplayIntro?: () => void;
@@ -8,10 +9,6 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onReplayIntro }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
   return (
@@ -42,13 +39,7 @@ export const Footer: React.FC<FooterProps> = ({ onReplayIntro }) => {
             </>
           )}
 
-          <button
-            onClick={handlePrint}
-            className="hover:text-[#A18262] flex items-center gap-1 cursor-pointer transition-colors"
-          >
-            <Printer className="w-3.5 h-3.5 text-[#A18262]" />
-            <span>PRINT</span>
-          </button>
+          <PrintGazetteButton variant="footer" />
 
           <span className="text-[#A18262]">•</span>
 

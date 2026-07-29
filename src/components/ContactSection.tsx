@@ -64,7 +64,7 @@ export const ContactSection: React.FC = () => {
               </button>
             </div>
             <p className="font-mono text-xs text-[#5E5E5E] uppercase tracking-wider">
-              REPLY LATENCY: TYPICALLY UNDER 12 HOURS • TAXILA (PK) TIMEZONE
+              REPLY LATENCY: TYPICALLY UNDER 12 HOURS • RAWALPINDI (PK) TIMEZONE
             </p>
           </div>
 

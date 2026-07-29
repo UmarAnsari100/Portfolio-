@@ -408,7 +408,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isRe
       {/* Bottom Editorial Footer Status */}
       <div className="relative z-20 flex justify-between items-center border-t border-[#1A1A1A]/20 pt-3 font-mono text-[10px] text-[#5E5E5E] uppercase tracking-widest">
         <span>ARCHIVAL DOSSIER SECURE</span>
-        <span className="hidden sm:inline">TAXILA &amp; RIYADH EDITION</span>
+        <span className="hidden sm:inline">RAWALPINDI EDITION</span>
         <span>PRESS ESC TO SKIP</span>
       </div>
     </div>

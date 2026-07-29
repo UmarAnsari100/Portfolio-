@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Printer, Send, ShieldCheck } from 'lucide-react';
+import { Send, ShieldCheck } from 'lucide-react';
+import { PrintGazetteButton } from './PrintGazetteButton';
 
 interface HeaderProps {
   onHireMeClick: () => void;
@@ -19,10 +20,6 @@ export const Header: React.FC<HeaderProps> = ({ onHireMeClick, onReplayIntro }) 
     }).toUpperCase();
     setCurrentDate(formatted);
   }, []);
-
-  const handlePrint = () => {
-    window.print();
-  };
 
   return (
     <header className="max-w-[1440px] mx-auto px-5 md:px-16 pt-8 print:p-0">
@@ -47,21 +44,13 @@ export const Header: React.FC<HeaderProps> = ({ onHireMeClick, onReplayIntro }) 
             </button>
           )}
 
-          <button
-            onClick={handlePrint}
-            aria-label="Print broadsheet gazette edition"
-            className="hidden sm:flex items-center gap-1.5 hover:opacity-70 cursor-pointer py-1 px-2 border border-[#1A1A1A]/30 text-[10px] focus-visible:ring-2 focus-visible:ring-[#1A1A1A] focus-visible:outline-none"
-            title="Print Broadsheet Newspaper Edition"
-          >
-            <Printer className="w-3.5 h-3.5 text-[#A18262]" aria-hidden="true" />
-            <span>PRINT GAZETTE</span>
-          </button>
+          <PrintGazetteButton variant="header" />
         </div>
 
         <div className="text-right">
           <span className="font-bold">MUHAMMAD UMAR</span>
           <span className="opacity-40" aria-hidden="true"> // </span>
-          <span className="opacity-70">TAXILA &amp; RIYADH</span>
+          <span className="opacity-70">RAWALPINDI, PAKISTAN</span>
         </div>
       </div>
 

@@ -86,7 +86,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWorkClick }) => {
             <div className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.15em]">
               <span className="text-[#1A1A1A]">SPECIAL REPORT: MUHAMMAD UMAR</span>
               <span className="text-[#A18262]" aria-hidden="true">•</span>
-              <span className="italic text-[#A18262]">TAXILA & RIYADH</span>
+              <span className="italic text-[#A18262]">RAWALPINDI, PAKISTAN</span>
             </div>
 
             <button
