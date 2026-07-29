@@ -8,6 +8,29 @@ interface CinematicIntroProps {
   isReplay?: boolean;
 }
 
+const PROJECTS_LIST = [
+  {
+    caseNo: 'CASE FILE 001',
+    title: 'UMRAH TRANSPORT',
+    subtitle: 'Saudi Luxury Transportation Platform',
+  },
+  {
+    caseNo: 'CASE FILE 002',
+    title: 'ROYAL VIP LIMOS',
+    subtitle: 'Luxury Reservation Experience',
+  },
+  {
+    caseNo: 'CASE FILE 003',
+    title: 'OPTION ONE STORE',
+    subtitle: 'Commerce Platform',
+  },
+  {
+    caseNo: 'CASE FILE 004',
+    title: 'STUDYBUDDY AI',
+    subtitle: 'AI Learning Platform',
+  },
+];
+
 export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isReplay = false }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
@@ -32,7 +55,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isRe
     }
 
     const ctx = gsap.context(() => {
-      // Main GSAP Master Timeline (~4.2s total)
+      // Master GSAP Timeline (~8.2s total, Atmospheric Movie-Trailer Pacing)
       const tl = gsap.timeline({
         onComplete: () => {
           if (typeof window !== 'undefined' && !isReplay) {
@@ -43,154 +66,162 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isRe
       });
       timelineRef.current = tl;
 
-      // Sound Cues
+      // Initial paper sound cue
       playPaperSweep();
 
-      // ==========================================
-      // SCENE 01 — DOSSIER ARRIVES (0.0s - 0.7s)
-      // ==========================================
+      // ===================================================
+      // SCENE 01 — ATMOSPHERE & UNFOLDING (0.0s - 1.4s)
+      // Minimal: Only title, archive badge & authenticating text
+      // ===================================================
       tl.fromTo(
-        '.dossier-header-title',
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+        '.scene-1-container',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
       )
       .fromTo(
-        '.dossier-header-sub',
-        { opacity: 0, y: 4 },
-        { opacity: 0.8, y: 0, duration: 0.25, ease: 'power2.out' },
-        '-=0.15'
-      )
-      .fromTo(
-        '.dossier-divider',
+        '.scene-1-divider',
         { scaleX: 0 },
-        { scaleX: 1, duration: 0.4, ease: 'power2.inOut', transformOrigin: 'center center' },
-        '-=0.2'
-      )
-      .fromTo(
-        '.dossier-meta-tag',
-        { opacity: 0, y: 4 },
-        { opacity: 0.75, y: 0, duration: 0.25, stagger: 0.05, ease: 'power1.out' },
-        '-=0.2'
+        { scaleX: 1, duration: 0.7, ease: 'power2.inOut', transformOrigin: 'center center' },
+        '-=0.3'
       );
 
-      // ==========================================
-      // SCENE 02 — BLUEPRINT ASSEMBLY (0.7s - 1.9s)
-      // ==========================================
+      // Hold Scene 1 until 1.4s
+      tl.to('.scene-1-container', { opacity: 0, y: -10, duration: 0.35, ease: 'power2.in' }, '1.3');
+
+      // ===================================================
+      // SCENE 02 — RHYTHMIC CASE FILE REVEALS (1.4s - 3.4s)
+      // Reveals ONE project at a time in sequence
+      // ===================================================
+      const projectItems = document.querySelectorAll('.project-reveal-item');
+      projectItems.forEach((item, idx) => {
+        const startTime = 1.4 + idx * 0.5; // 0.5s stride per project
+
+        tl.fromTo(
+          item,
+          { opacity: 0, y: 16, filter: 'blur(4px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.32,
+            ease: 'power2.out',
+            onStart: () => playArchivalClick()
+          },
+          `${startTime}`
+        )
+        .fromTo(
+          item.querySelector('.proj-check'),
+          { opacity: 0, scale: 0.5 },
+          { opacity: 1, scale: 1, duration: 0.18, ease: 'back.out(1.5)' },
+          `${startTime + 0.1}`
+        );
+
+        // Slide out upward unless it's the last item
+        if (idx < projectItems.length - 1) {
+          tl.to(
+            item,
+            { opacity: 0, y: -16, filter: 'blur(2px)', duration: 0.2, ease: 'power2.in' },
+            `${startTime + 0.42}`
+          );
+        } else {
+          // Fade last item out at 3.3s
+          tl.to(item, { opacity: 0, duration: 0.25, ease: 'power2.in' }, '3.3');
+        }
+      });
+
+      // ===================================================
+      // SCENE 03 — SINGLE PATENT BLUEPRINT ASSEMBLY (3.4s - 4.9s)
+      // One minimal Apple-patent style blueprint sheet
+      // ===================================================
       tl.fromTo(
-        '.blueprint-card',
-        { opacity: 0, y: 12, filter: 'blur(4px)' },
+        '.patent-sheet',
+        { opacity: 0, y: 14, filter: 'blur(5px)' },
         {
-          opacity: 0.6,
+          opacity: 0.7,
           y: 0,
           filter: 'blur(3px)',
-          duration: 0.45,
-          stagger: 0.08,
+          duration: 0.6,
           ease: 'power2.out',
-          onStart: () => playArchivalClick()
+          onStart: () => playPaperSweep()
         },
-        '0.7'
+        '3.4'
       );
 
-      // ==========================================
-      // SCENE 03 — PRECISION DIGITIZER SCANNER (1.9s - 2.9s)
-      // ==========================================
+      // ===================================================
+      // SCENE 04 — PRECISION SCANNER & AUTH COMPLETE (4.4s - 5.8s)
+      // ===================================================
       tl.fromTo(
         scannerBarRef.current,
         { top: '0%', opacity: 0 },
         {
           top: '100%',
           opacity: 1,
-          duration: 0.95,
+          duration: 1.2,
           ease: 'power1.inOut',
-          onStart: () => {
-            playPaperSweep();
-          }
+          onStart: () => playPaperSweep()
         },
-        '1.8'
+        '4.2'
       );
 
-      // As digitizer passes, blueprints sharpen to 1.0 opacity & 0px blur
+      // Blueprint sharpens
       tl.to(
-        '.blueprint-card',
+        '.patent-sheet',
+        { opacity: 1, filter: 'blur(0px)', duration: 0.45, ease: 'power2.out' },
+        '4.5'
+      );
+
+      // Reveal AUTHENTICATION COMPLETE text
+      tl.fromTo(
+        '.auth-complete-text',
+        { opacity: 0, y: 6 },
         {
           opacity: 1,
-          filter: 'blur(0px)',
-          duration: 0.3,
-          stagger: 0.06,
-          ease: 'power2.out'
+          y: 0,
+          duration: 0.35,
+          ease: 'power2.out',
+          onStart: () => playArchivalClick()
         },
-        '2.0'
+        '4.9'
       );
 
-      // ==========================================
-      // SCENE 04 — CASE STUDY VERIFICATION LOG (2.9s - 3.7s)
-      // ==========================================
-      // Line fades in -> checkmark appears -> VERIFIED slides in
-      const rows = document.querySelectorAll('.verify-log-row');
-      rows.forEach((row, index) => {
-        const timeOffset = 2.8 + index * 0.14;
-        
-        tl.fromTo(
-          row,
-          { opacity: 0, x: -6 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.22,
-            ease: 'power2.out',
-            onStart: () => playArchivalClick()
-          },
-          `${timeOffset}`
-        )
-        .fromTo(
-          row.querySelector('.verify-check'),
-          { opacity: 0, scale: 0.6 },
-          { opacity: 1, scale: 1, duration: 0.15, ease: 'back.out(1.4)' },
-          `${timeOffset + 0.08}`
-        )
-        .fromTo(
-          row.querySelector('.verify-badge'),
-          { opacity: 0, x: 8 },
-          { opacity: 1, x: 0, duration: 0.18, ease: 'power2.out' },
-          `${timeOffset + 0.1}`
-        );
-      });
-
-      // ==========================================
-      // SCENE 05 — MINIMAL AUTHENTICATION SEAL (3.7s - 4.3s)
-      // ==========================================
+      // ===================================================
+      // SCENE 05 — MINIMAL AUTHENTICATION SEAL (5.8s - 7.0s)
+      // ===================================================
       tl.to(
-        '.blueprint-container',
-        { opacity: 0.3, filter: 'blur(2px)', duration: 0.35, ease: 'power2.inOut' },
-        '3.6'
+        '.patent-container',
+        { opacity: 0.2, filter: 'blur(3px)', duration: 0.4, ease: 'power2.inOut' },
+        '5.6'
       );
 
       tl.fromTo(
         '.auth-seal',
-        { opacity: 0, scale: 0.985, filter: 'blur(3px)' },
+        { opacity: 0, scale: 0.988, filter: 'blur(4px)' },
         {
           opacity: 1,
           scale: 1,
           filter: 'blur(0px)',
-          duration: 0.45,
+          duration: 0.55,
           ease: 'power2.out',
           onStart: () => playArchivalClick()
         },
-        '3.7'
+        '5.8'
       );
 
-      // ==========================================
-      // SCENE 06 — SEAMLESS TRANSITION (4.3s - 4.7s)
-      // ==========================================
+      // Dwell hold for seal until 7.0s
+
+      // ===================================================
+      // SCENE 06 — PHYSICAL PAPER SLIDE-UP TRANSITION (7.0s - 7.8s)
+      // Paper physically slides upward, opening the portfolio newspaper!
+      // ===================================================
       tl.to(
         containerRef.current,
         {
-          opacity: 0,
-          scale: 1.01,
-          duration: 0.45,
-          ease: 'power2.inOut'
+          yPercent: -100,
+          duration: 0.8,
+          ease: 'power3.inOut',
+          onStart: () => playPaperSweep()
         },
-        '4.2'
+        '7.0'
       );
 
     }, containerRef);
@@ -218,11 +249,11 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isRe
     if (typeof window !== 'undefined' && !isReplay) {
       localStorage.setItem('has_seen_intro_v1', 'true');
     }
-    // Smooth fast fade out on skip
+    // Smooth physical slide up on skip
     gsap.to(containerRef.current, {
-      opacity: 0,
-      duration: 0.2,
-      ease: 'power2.out',
+      yPercent: -100,
+      duration: 0.45,
+      ease: 'power3.inOut',
       onComplete: () => {
         onComplete();
       }
@@ -234,10 +265,10 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isRe
       ref={containerRef}
       role="region"
       aria-label="Engineering Dossier Verification Intro Sequence"
-      className="fixed inset-0 z-[9999] bg-[#F5F2ED] text-[#1A1A1A] font-sans antialiased flex flex-col justify-between p-4 sm:p-8 md:p-12 overflow-hidden select-none"
+      className="fixed inset-0 z-[9999] bg-[#F5F2ED] text-[#1A1A1A] font-sans antialiased flex flex-col justify-between p-4 sm:p-8 md:p-12 overflow-hidden select-none shadow-2xl border-b-2 border-[#1A1A1A]"
     >
-      {/* Editorial Gridlines overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-25 grid grid-cols-6 md:grid-cols-12 gap-0 border-b border-[#1A1A1A]/10">
+      {/* Subtle Editorial Background Gridlines */}
+      <div className="absolute inset-0 pointer-events-none opacity-15 grid grid-cols-6 md:grid-cols-12 gap-0 border-b border-[#1A1A1A]/10">
         {Array.from({ length: 12 }).map((_, i) => (
           <div key={i} className="border-r border-[#1A1A1A]/10 h-full" />
         ))}
@@ -247,7 +278,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isRe
       <div
         ref={scannerBarRef}
         aria-hidden="true"
-        className="absolute left-0 right-0 h-[1.5px] bg-[#A18262] shadow-[0_0_8px_rgba(161,130,98,0.3)] z-30 pointer-events-none opacity-0"
+        className="absolute left-0 right-0 h-[1.5px] bg-[#A18262] shadow-[0_0_8px_rgba(161,130,98,0.25)] z-30 pointer-events-none opacity-0"
       />
 
       {/* Top Header Bar & Skip Control */}
@@ -270,141 +301,94 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, isRe
       </div>
 
       {/* Main Content Area */}
-      <div className="relative z-10 max-w-5xl mx-auto w-full my-auto py-4 flex flex-col items-center justify-center">
+      <div className="relative z-10 max-w-3xl mx-auto w-full my-auto py-4 flex flex-col items-center justify-center min-h-[360px]">
 
-        {/* SCENE 01: Header Information */}
-        <div className="text-center w-full max-w-xl mb-6">
-          <div className="dossier-meta-tag flex items-center justify-center gap-3 font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#A18262] font-semibold mb-2">
-            <span>CASE FILE 001</span>
-            <span>•</span>
-            <span>ENGINEERING REVIEW</span>
-            <span>•</span>
-            <span>LEVEL 04</span>
+        {/* SCENE 01: Atmosphere */}
+        <div className="scene-1-container text-center w-full max-w-lg absolute inset-x-0 mx-auto flex flex-col items-center justify-center pointer-events-none">
+          <div className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#A18262] font-bold mb-2">
+            Classified Engineering Archive
           </div>
 
-          <h1 className="dossier-header-title font-serif font-black text-2xl sm:text-4xl md:text-5xl uppercase tracking-tight text-[#1A1A1A] mb-1">
+          <h1 className="font-serif font-black text-3xl sm:text-5xl uppercase tracking-tight text-[#1A1A1A] mb-2">
             ENGINEERING DOSSIER
           </h1>
 
-          <p className="dossier-header-sub font-mono text-xs sm:text-sm text-[#5E5E5E] tracking-widest uppercase">
-            Authenticating Engineering Evidence...
+          <div className="scene-1-divider h-[1px] w-48 bg-[#1A1A1A]/30 my-3" />
+
+          <p className="font-mono text-xs text-[#5E5E5E] tracking-[0.2em] uppercase italic">
+            Authenticating...
           </p>
-
-          <div className="dossier-divider h-[1px] w-full bg-[#1A1A1A]/30 my-4" />
         </div>
 
-        {/* SCENE 02 & 03: Project Blueprint Grid */}
-        <div className="blueprint-container w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
-          {/* Blueprint 1: Umrah Transport */}
-          <div className="blueprint-card border border-[#1A1A1A]/20 bg-[#F5F2ED]/90 p-3 sm:p-4 rounded-xs">
-            <div className="flex justify-between items-center border-b border-[#1A1A1A]/10 pb-1.5 mb-2 font-mono text-[10px] text-[#A18262] uppercase tracking-wider font-semibold">
-              <span>001 / FLEET DISPATCH</span>
-              <span>SAUDI TRANSPORT SYSTEM</span>
-            </div>
-            <div className="font-mono text-[10px] text-[#1A1A1A]/80 space-y-1 bg-[#1A1A1A]/5 p-2 rounded-xs">
-              <div className="text-[#1A1A1A] font-bold">[Dispatch Controller] -&gt; [Geofence Engine]</div>
-              <div className="text-[#5E5E5E]">Latency: &lt;100ms • Fleet Matrix: Active</div>
-              <div className="text-[#5E5E5E] flex justify-between">
-                <span>Route Opt: Dynamic</span>
-                <span className="text-[#A18262] font-bold">100% Operational</span>
+        {/* SCENE 02: Rhythmic Single Case File Reveals */}
+        <div className="w-full max-w-lg absolute inset-x-0 mx-auto flex items-center justify-center pointer-events-none">
+          {PROJECTS_LIST.map((proj, idx) => (
+            <div
+              key={idx}
+              className="project-reveal-item absolute inset-x-0 mx-auto border border-[#1A1A1A]/20 bg-[#F5F2ED] p-5 sm:p-6 shadow-sm text-center flex flex-col items-center justify-center rounded-xs opacity-0"
+            >
+              <div className="font-mono text-[10px] text-[#A18262] uppercase tracking-[0.25em] font-bold mb-1">
+                {proj.caseNo}
               </div>
-            </div>
-          </div>
 
-          {/* Blueprint 2: Royal VIP Limos */}
-          <div className="blueprint-card border border-[#1A1A1A]/20 bg-[#F5F2ED]/90 p-3 sm:p-4 rounded-xs">
-            <div className="flex justify-between items-center border-b border-[#1A1A1A]/10 pb-1.5 mb-2 font-mono text-[10px] text-[#A18262] uppercase tracking-wider font-semibold">
-              <span>002 / LUXURY BRANDING</span>
-              <span>ROYAL VIP LIMOS PLATFORM</span>
-            </div>
-            <div className="font-mono text-[10px] text-[#1A1A1A]/80 space-y-1 bg-[#1A1A1A]/5 p-2 rounded-xs">
-              <div className="text-[#1A1A1A] font-bold">[Editorial Design System] -&gt; [Chauffeur Core]</div>
-              <div className="text-[#5E5E5E]">Layout: Broadsheet Aesthetic • Typography: Playfair</div>
-              <div className="text-[#5E5E5E] flex justify-between">
-                <span>Client Rating: Premium</span>
-                <span className="text-[#A18262] font-bold">60 FPS Render</span>
+              <div className="font-serif font-black text-xl sm:text-2xl uppercase text-[#1A1A1A] tracking-tight mb-1">
+                {proj.title}
               </div>
-            </div>
-          </div>
 
-          {/* Blueprint 3: Option One Store */}
-          <div className="blueprint-card border border-[#1A1A1A]/20 bg-[#F5F2ED]/90 p-3 sm:p-4 rounded-xs">
-            <div className="flex justify-between items-center border-b border-[#1A1A1A]/10 pb-1.5 mb-2 font-mono text-[10px] text-[#A18262] uppercase tracking-wider font-semibold">
-              <span>003 / COMMERCE SYSTEM</span>
-              <span>OPTION ONE STORE</span>
-            </div>
-            <div className="font-mono text-[10px] text-[#1A1A1A]/80 space-y-1 bg-[#1A1A1A]/5 p-2 rounded-xs">
-              <div className="text-[#1A1A1A] font-bold">[State Machine] -&gt; [Optimistic Cart UI]</div>
-              <div className="text-[#5E5E5E]">Mutation: Zero-Latency • Store Sync: Active</div>
-              <div className="text-[#5E5E5E] flex justify-between">
-                <span>Catalog: 1.2k SKUs</span>
-                <span className="text-[#A18262] font-bold">0 Drop Rates</span>
+              <div className="font-mono text-xs text-[#5E5E5E] mb-3">
+                {proj.subtitle}
               </div>
-            </div>
-          </div>
 
-          {/* Blueprint 4: StudyBuddy AI */}
-          <div className="blueprint-card border border-[#1A1A1A]/20 bg-[#F5F2ED]/90 p-3 sm:p-4 rounded-xs">
-            <div className="flex justify-between items-center border-b border-[#1A1A1A]/10 pb-1.5 mb-2 font-mono text-[10px] text-[#A18262] uppercase tracking-wider font-semibold">
-              <span>004 / AI LEARNING ENGINE</span>
-              <span>STUDYBUDDY AI SUITE</span>
-            </div>
-            <div className="font-mono text-[10px] text-[#1A1A1A]/80 space-y-1 bg-[#1A1A1A]/5 p-2 rounded-xs">
-              <div className="text-[#1A1A1A] font-bold">[Express Server Proxy] -&gt; [Gemini 2.5 API]</div>
-              <div className="text-[#5E5E5E]">Schema: Strict JSON • Summarize Speed: 2.1s</div>
-              <div className="text-[#5E5E5E] flex justify-between">
-                <span>Active Recall: Enabled</span>
-                <span className="text-[#A18262] font-bold">Validated</span>
+              <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#A18262] bg-[#1A1A1A]/5 px-3 py-1 rounded-full border border-[#1A1A1A]/10">
+                <Check className="proj-check w-3.5 h-3.5" />
+                <span>VERIFIED</span>
               </div>
             </div>
-          </div>
+          ))}
         </div>
 
-        {/* SCENE 04: Project Verification Checklist */}
-        <div className="w-full max-w-xl space-y-1.5 font-mono text-[11px] sm:text-xs my-2">
-          {/* Row 1 */}
-          <div className="verify-log-row flex items-center justify-between border-b border-[#1A1A1A]/10 pb-1">
-            <span className="text-[#1A1A1A] font-semibold">001  UMRAH TRANSPORT</span>
-            <span className="text-[#5E5E5E] hidden sm:inline">Booking Workflow</span>
-            <div className="flex items-center gap-1.5">
-              <Check className="verify-check w-3.5 h-3.5 text-[#A18262]" />
-              <span className="verify-badge font-bold text-[#A18262]">VERIFIED</span>
+        {/* SCENE 03 & 04: Single Patent Blueprint Sheet & Auth Complete */}
+        <div className="patent-container w-full max-w-xl flex flex-col items-center">
+          {/* Patent Blueprint Sheet */}
+          <div className="patent-sheet w-full border border-[#1A1A1A]/25 bg-[#F5F2ED] p-5 sm:p-6 rounded-xs shadow-xs text-left opacity-0">
+            <div className="flex justify-between items-center border-b border-[#1A1A1A]/15 pb-2 mb-3 font-mono text-[10px] text-[#A18262] uppercase tracking-[0.2em] font-bold">
+              <span>PATENT SPECIFICATION • FIG 1.0</span>
+              <span>SYSTEM TOPOLOGY</span>
+            </div>
+
+            {/* Architecture Node Flow Diagram */}
+            <div className="font-mono text-xs text-[#1A1A1A] space-y-3 my-2">
+              <div className="flex items-center justify-between gap-2 border border-[#1A1A1A]/10 bg-[#1A1A1A]/5 p-2.5 rounded-xs">
+                <span className="font-bold text-[#1A1A1A]">[ Client Application ]</span>
+                <span className="text-[#A18262] font-mono text-[10px]">&lt;──&gt;</span>
+                <span className="font-bold text-[#1A1A1A]">[ Edge Proxy API ]</span>
+                <span className="text-[#A18262] font-mono text-[10px]">&lt;──&gt;</span>
+                <span className="font-bold text-[#1A1A1A]">[ Core Engine ]</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 text-[10px] text-[#5E5E5E] pt-1">
+                <div className="border-r border-[#1A1A1A]/10 pr-1">
+                  LATENCY: <span className="font-bold text-[#1A1A1A]">&lt;80ms</span>
+                </div>
+                <div className="border-r border-[#1A1A1A]/10 px-1 text-center">
+                  INTEGRITY: <span className="font-bold text-[#A18262]">100%</span>
+                </div>
+                <div className="pl-1 text-right">
+                  AUDIT: <span className="font-bold text-[#1A1A1A]">PASSED</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Row 2 */}
-          <div className="verify-log-row flex items-center justify-between border-b border-[#1A1A1A]/10 pb-1">
-            <span className="text-[#1A1A1A] font-semibold">002  ROYAL VIP LIMOS</span>
-            <span className="text-[#5E5E5E] hidden sm:inline">Luxury Branding</span>
-            <div className="flex items-center gap-1.5">
-              <Check className="verify-check w-3.5 h-3.5 text-[#A18262]" />
-              <span className="verify-badge font-bold text-[#A18262]">VERIFIED</span>
-            </div>
-          </div>
-
-          {/* Row 3 */}
-          <div className="verify-log-row flex items-center justify-between border-b border-[#1A1A1A]/10 pb-1">
-            <span className="text-[#1A1A1A] font-semibold">003  OPTION ONE STORE</span>
-            <span className="text-[#5E5E5E] hidden sm:inline">Commerce System</span>
-            <div className="flex items-center gap-1.5">
-              <Check className="verify-check w-3.5 h-3.5 text-[#A18262]" />
-              <span className="verify-badge font-bold text-[#A18262]">VERIFIED</span>
-            </div>
-          </div>
-
-          {/* Row 4 */}
-          <div className="verify-log-row flex items-center justify-between border-b border-[#1A1A1A]/10 pb-1">
-            <span className="text-[#1A1A1A] font-semibold">004  STUDYBUDDY AI</span>
-            <span className="text-[#5E5E5E] hidden sm:inline">AI Learning Engine</span>
-            <div className="flex items-center gap-1.5">
-              <Check className="verify-check w-3.5 h-3.5 text-[#A18262]" />
-              <span className="verify-badge font-bold text-[#A18262]">VERIFIED</span>
-            </div>
+          {/* Authentication Complete Notification */}
+          <div className="auth-complete-text font-mono text-xs uppercase tracking-[0.25em] font-bold text-[#A18262] mt-4 opacity-0 flex items-center gap-2">
+            <Check className="w-4 h-4 text-[#A18262]" />
+            <span>AUTHENTICATION COMPLETE</span>
           </div>
         </div>
 
         {/* SCENE 05: Minimal Editorial Authentication Seal */}
-        <div className="auth-seal absolute inset-x-0 mx-auto flex items-center justify-center pointer-events-none">
+        <div className="auth-seal absolute inset-x-0 mx-auto flex items-center justify-center pointer-events-none opacity-0">
           <div className="border-2 border-[#1A1A1A] bg-[#F5F2ED] p-6 sm:p-8 rounded-full text-center shadow-xl max-w-xs flex flex-col items-center justify-center aspect-square">
             <ShieldCheck className="w-8 h-8 text-[#A18262] mb-2" />
             <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#A18262] font-bold mb-1">
