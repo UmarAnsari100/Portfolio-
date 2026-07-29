@@ -1,7 +1,11 @@
 import React from 'react';
-import { ArrowUp, Printer } from 'lucide-react';
+import { ArrowUp, Printer, ShieldCheck } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onReplayIntro?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onReplayIntro }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -20,10 +24,24 @@ export const Footer: React.FC = () => {
         <div className="flex items-center gap-6 text-[11px] text-[#5E5E5E]">
           <span className="italic font-serif">PRINTED ON DIGITAL PAPER</span>
           <span className="text-[#A18262]">•</span>
-          <span className="font-bold text-[#1A1A1A]">PRICE: TIME & ATTENTION</span>
+          <span className="font-bold text-[#1A1A1A]">PRICE: TIME &amp; ATTENTION</span>
         </div>
 
         <div className="flex items-center gap-4">
+          {onReplayIntro && (
+            <>
+              <button
+                onClick={onReplayIntro}
+                className="hover:text-[#A18262] flex items-center gap-1 cursor-pointer transition-colors"
+                title="Replay Dossier Verification Sequence"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-[#A18262]" />
+                <span>REPLAY DOSSIER</span>
+              </button>
+              <span className="text-[#A18262]">•</span>
+            </>
+          )}
+
           <button
             onClick={handlePrint}
             className="hover:text-[#A18262] flex items-center gap-1 cursor-pointer transition-colors"
@@ -31,7 +49,9 @@ export const Footer: React.FC = () => {
             <Printer className="w-3.5 h-3.5 text-[#A18262]" />
             <span>PRINT</span>
           </button>
+
           <span className="text-[#A18262]">•</span>
+
           <button
             onClick={scrollToTop}
             className="hover:text-[#A18262] flex items-center gap-1 cursor-pointer font-bold transition-colors"

@@ -10,10 +10,13 @@ import { ArticlesSection } from './components/ArticlesSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
+import { CinematicIntro } from './components/CinematicIntro';
 import { Project } from './types';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showIntro, setShowIntro] = useState<boolean>(true);
+  const [isReplay, setIsReplay] = useState<boolean>(false);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -22,8 +25,24 @@ export default function App() {
     }
   };
 
+  const handleReplayIntro = () => {
+    setIsReplay(true);
+    setShowIntro(true);
+  };
+
   return (
     <div className="min-h-screen bg-[#F5F2ED] text-[#1A1A1A] font-sans antialiased relative selection:bg-[#1A1A1A] selection:text-[#F5F2ED]">
+      {/* Cinematic Engineering Evidence Verification Intro Overlay */}
+      {showIntro && (
+        <CinematicIntro
+          onComplete={() => {
+            setShowIntro(false);
+            setIsReplay(false);
+          }}
+          isReplay={isReplay}
+        />
+      )}
+
       {/* Accessibility Skip Link */}
       <a
         href="#main-content"
@@ -38,7 +57,10 @@ export default function App() {
       {/* Main Broadsheet Paper Surface Container */}
       <div className="relative z-10 max-w-[1536px] mx-auto border-x-0 md:border-x border-[#1A1A1A]/10 shadow-xs">
         {/* Masthead Header */}
-        <Header onHireMeClick={() => scrollToSection('contact')} />
+        <Header
+          onHireMeClick={() => scrollToSection('contact')}
+          onReplayIntro={handleReplayIntro}
+        />
 
         {/* Main Content Landmark */}
         <main id="main-content" tabIndex={-1} className="focus:outline-none">
@@ -65,7 +87,7 @@ export default function App() {
         </main>
 
         {/* Broadsheet Press Footer */}
-        <Footer />
+        <Footer onReplayIntro={handleReplayIntro} />
       </div>
 
       {/* Project Case Study Reader Modal */}

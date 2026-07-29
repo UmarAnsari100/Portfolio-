@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Printer, Send } from 'lucide-react';
+import { Printer, Send, ShieldCheck } from 'lucide-react';
 
 interface HeaderProps {
   onHireMeClick: () => void;
+  onReplayIntro?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onHireMeClick }) => {
+export const Header: React.FC<HeaderProps> = ({ onHireMeClick, onReplayIntro }) => {
   const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
@@ -33,7 +34,19 @@ export const Header: React.FC<HeaderProps> = ({ onHireMeClick }) => {
           <span className="opacity-70">{currentDate || 'PORTFOLIO EDITION'}</span>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          {onReplayIntro && (
+            <button
+              onClick={onReplayIntro}
+              aria-label="Replay Dossier Verification Intro Sequence"
+              className="flex items-center gap-1.5 hover:opacity-70 cursor-pointer py-1 px-2 border border-[#1A1A1A]/30 text-[10px] focus-visible:ring-2 focus-visible:ring-[#1A1A1A] focus-visible:outline-none"
+              title="Replay Dossier Verification Sequence"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#A18262]" aria-hidden="true" />
+              <span>REPLAY DOSSIER</span>
+            </button>
+          )}
+
           <button
             onClick={handlePrint}
             aria-label="Print broadsheet gazette edition"
@@ -48,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({ onHireMeClick }) => {
         <div className="text-right">
           <span className="font-bold">MUHAMMAD UMAR</span>
           <span className="opacity-40" aria-hidden="true"> // </span>
-          <span className="opacity-70">TAXILA & RIYADH</span>
+          <span className="opacity-70">TAXILA &amp; RIYADH</span>
         </div>
       </div>
 
@@ -60,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({ onHireMeClick }) => {
         <div className="text-center mt-2 flex items-center justify-center gap-3">
           <span className="h-[1px] w-12 bg-[#1A1A1A]/20 hidden sm:inline-block" aria-hidden="true"></span>
           <p className="font-serif italic text-sm md:text-lg text-[#5E5E5E] tracking-wide">
-            The Digital Journal — Engineering Architecture & Creative Direction
+            The Digital Journal — Engineering Architecture &amp; Creative Direction
           </p>
           <span className="h-[1px] w-12 bg-[#1A1A1A]/20 hidden sm:inline-block" aria-hidden="true"></span>
         </div>
