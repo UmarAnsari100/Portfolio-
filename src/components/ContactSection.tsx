@@ -8,7 +8,7 @@ export const ContactSection: React.FC = () => {
   const [senderEmail, setSenderEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const emailAddress = 'umardev.txt@gmail.com';
+  const emailAddress = 'umaransari0516@gmail.com';
 
   const copyEmail = () => {
     navigator.clipboard.writeText(emailAddress);
@@ -33,7 +33,7 @@ export const ContactSection: React.FC = () => {
         <div className="lg:col-span-6 space-y-8">
           <div>
             <div className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#A18262] mb-2">
-              VOL. 2026 — TELEGRAM & DISPATCH SERVICE
+              VOL. 2026 — ENGINEERING DISPATCH
             </div>
             <h3 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl uppercase tracking-tight text-[#1A1A1A] leading-none mb-4">
               AVAILABLE FOR NEW INVESTIGATIONS
@@ -48,10 +48,10 @@ export const ContactSection: React.FC = () => {
             <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#5E5E5E] block mb-2">
               DIRECT DISPATCH ADDRESS
             </span>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#1A1A1A]/20 pb-4 mb-4">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-[#1A1A1A]/20 pb-4 mb-4 min-w-0">
               <a
                 href={`mailto:${emailAddress}`}
-                className="font-serif font-bold text-2xl sm:text-3xl text-[#1A1A1A] hover:text-[#A18262] hover:italic transition-all break-all"
+                className="font-serif font-bold text-base sm:text-xl xl:text-2xl text-[#1A1A1A] hover:text-[#A18262] transition-colors break-all sm:break-normal min-w-0"
               >
                 {emailAddress}
               </a>
@@ -78,7 +78,7 @@ export const ContactSection: React.FC = () => {
                 <Linkedin className="w-4 h-4 text-[#A18262]" /> LINKEDIN
               </span>
               <a
-                href="https://linkedin.com/in/muhammadumar"
+                href="https://www.linkedin.com/in/m-umar-ansari/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#A18262] flex items-center gap-1 transition-colors"
@@ -91,7 +91,7 @@ export const ContactSection: React.FC = () => {
                 <Github className="w-4 h-4 text-[#A18262]" /> GITHUB
               </span>
               <a
-                href="https://github.com/mumardev"
+                href="https://github.com/UmarAnsari100"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#A18262] flex items-center gap-1 transition-colors"
@@ -104,7 +104,7 @@ export const ContactSection: React.FC = () => {
                 <Twitter className="w-4 h-4 text-[#A18262]" /> TWITTER / X
               </span>
               <a
-                href="https://twitter.com/mumardev"
+                href="https://x.com/umar4185"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#A18262] flex items-center gap-1 transition-colors"
@@ -120,7 +120,7 @@ export const ContactSection: React.FC = () => {
           <div className="flex items-center justify-between border-b border-[#1A1A1A]/20 pb-3 mb-6 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
             <div className="flex items-center gap-2">
               <MessageSquare className="w-4 h-4 text-[#A18262]" />
-              <span>DISPATCH TELEGRAM FORM</span>
+              <span>DISPATCH  FORM</span>
             </div>
             <span>FORM NO. 2026</span>
           </div>
@@ -142,11 +142,10 @@ export const ContactSection: React.FC = () => {
                     type="button"
                     key={type}
                     onClick={() => setInquiryType(type)}
-                    className={`font-mono text-xs uppercase p-2.5 border text-left transition-all cursor-pointer ${
-                      inquiryType === type
-                        ? 'bg-[#1A1A1A] text-[#F5F2ED] border-[#1A1A1A] font-bold'
-                        : 'bg-white text-[#1A1A1A] border-[#1A1A1A]/20 hover:border-[#1A1A1A]'
-                    }`}
+                    className={`font-mono text-xs uppercase p-2.5 border text-left transition-all cursor-pointer ${inquiryType === type
+                      ? 'bg-[#1A1A1A] text-[#F5F2ED] border-[#1A1A1A] font-bold'
+                      : 'bg-white text-[#1A1A1A] border-[#1A1A1A]/20 hover:border-[#1A1A1A]'
+                      }`}
                   >
                     {type}
                   </button>
@@ -208,7 +207,7 @@ export const ContactSection: React.FC = () => {
               className="w-full border border-[#1A1A1A] bg-[#1A1A1A] text-[#F5F2ED] hover:bg-transparent hover:text-[#1A1A1A] p-4 font-mono text-xs font-bold uppercase tracking-[0.2em] transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-sm rounded-full focus-visible:ring-2 focus-visible:ring-[#1A1A1A] focus-visible:outline-none"
             >
               <Send className="w-4 h-4" aria-hidden="true" />
-              <span>TRANSMIT DISPATCH TELEGRAM</span>
+              <span>TRANSMIT DISPATCH</span>
             </button>
           </form>
         </div>

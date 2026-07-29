@@ -74,7 +74,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWorkClick }) => {
           </motion.div>
 
           <motion.h2 variants={itemVariants} className="font-serif font-bold text-3xl sm:text-5xl md:text-6xl lg:text-[60px] leading-[1.1] tracking-tight text-[#1A1A1A] mb-8">
-            Engineered for sub-100ms interaction feedback, modular architecture, and high-density web interfaces<span className="text-[#A18262] italic font-sans text-2xl align-top ml-2" aria-hidden="true">01</span>
+            A journal of digital products shaped through research, design, and engineering.<span className="text-[#A18262] italic font-sans text-2xl align-top ml-2" aria-hidden="true">01</span>
           </motion.h2>
 
           <motion.p variants={itemVariants} className="font-sans text-base sm:text-lg text-[#444444] leading-relaxed max-w-[68ch] mb-8 font-light">
@@ -122,11 +122,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWorkClick }) => {
                   role="tab"
                   aria-selected={activeArchView === 'system'}
                   onClick={() => setActiveArchView('system')}
-                  className={`flex-1 py-1 font-mono text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    activeArchView === 'system'
+                  className={`flex-1 py-1 font-mono text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${activeArchView === 'system'
                       ? 'bg-[#1A1A1A] text-[#F5F2ED]'
                       : 'text-[#1A1A1A] hover:bg-[#1A1A1A]/5'
-                  }`}
+                    }`}
                 >
                   SYSTEM LAYERS
                 </button>
@@ -134,11 +133,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWorkClick }) => {
                   role="tab"
                   aria-selected={activeArchView === 'flow'}
                   onClick={() => setActiveArchView('flow')}
-                  className={`flex-1 py-1 font-mono text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    activeArchView === 'flow'
+                  className={`flex-1 py-1 font-mono text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${activeArchView === 'flow'
                       ? 'bg-[#1A1A1A] text-[#F5F2ED]'
                       : 'text-[#1A1A1A] hover:bg-[#1A1A1A]/5'
-                  }`}
+                    }`}
                 >
                   DISPATCH PIPELINE
                 </button>
